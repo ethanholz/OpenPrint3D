@@ -1,0 +1,77 @@
+{
+  "op3d_schema": "printer",
+  "op3d_schema_version": "0.1.0",
+  "id": "Manufacturer/Model",
+
+  "manufacturer": "ManufacturerName",
+  "model": "ModelName",
+  "variant": "Stock",
+
+  "build_volume": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "shape": "rectangular",
+    "origin": "front_left"
+  },
+
+  "kinematics": "cartesian",
+
+  "axes": {
+    "x": {
+      "max_speed": 0,
+      "max_accel": 0
+    },
+    "y": {
+      "max_speed": 0,
+      "max_accel": 0
+    },
+    "z": {
+      "max_speed": 0,
+      "max_accel": 0
+    }
+  },
+
+  "extruders": [
+    {
+      "id": "tool0",
+      "nozzle_diameter": 0.4,
+      "max_temp": 0,
+      "min_temp": 0,
+      "retraction_supported": true
+    }
+  ],
+
+  "bed": {
+    "heated": true,
+    "max_temp": 0,
+    "surface_type": ""
+  },
+
+  "chamber": {
+    "heated": false,
+    "max_temp": 0,
+    "passive": true
+  },
+
+  "firmware": {
+    "flavor": "other",
+    "identifier": ""
+  },
+
+  "network": {
+    "has_wifi": false,
+    "has_ethernet": false,
+    "supports_lan_api": false
+  },
+
+  "external_ids": {},
+  "links": {},
+  "tags": [],
+  "notes": "",
+
+  "x_cura": {},
+  "x_prusaslicer": {},
+  "x_orca": {},
+  "x_bambu": {}
+}
