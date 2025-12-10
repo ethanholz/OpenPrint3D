@@ -1,4 +1,4 @@
-# OpenPrint3D Governance
+# OpenPrint3D Governance & Decision Policy
 
 OpenPrint3D is an open-source, community-driven project. Its long-term success depends on transparent collaboration, clear responsibilities, and respectful interaction. This document establishes the project’s governance model and defines how decisions are made, how contributors may become maintainers, and how community spaces are used.
 
@@ -110,7 +110,7 @@ This ensures:
 
 Discord may host GitHub webhooks or announcements only after maintainers reach consensus and confirm that such integrations do **not** shift authoritative communications away from GitHub.
 
----
+Personal or non-technical disagreements are not valid blocking reasons.
 
 ## 5. Code of Conduct
 
