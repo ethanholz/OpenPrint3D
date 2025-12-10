@@ -16,77 +16,69 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      
-      - name: Get changed files (JSON only)
-        id: changed
-        shell: bash
-        run: |
-          set -e
-
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            # JSON files changed in this PR (base..head)
-            mapfile -t files < <(
-              git diff --name-only \
-                "${{ github.event.pull_request.base.sha }}" \
-                "${{ github.event.pull_request.head.sha }}" \
-                -- '*.json' || true
-            )
-          else
-            # Manual run: all tracked JSON files
-            mapfile -t files < <(git ls-files '*.json' || true)
-          fi
-
-          printf 'files<<EOF\n' >> "$GITHUB_OUTPUT"
-          printf '%s\n' "${files[@]}" >> "$GITHUB_OUTPUT"
-          printf 'EOF\n' >> "$GITHUB_OUTPUT"
-
-          echo "Changed JSON files:"
-          printf '  %s\n' "${files[@]}"
 
       - name: Validate printer schemas
         shell: bash
         run: |
           set -e
-          files=$(echo "${{ steps.changed.outputs.files }}" | grep '^printer/' || true)
 
-          if [[ -z "$files" ]]; then
-            echo "No printer JSON files changed. Skipping."
+          if [ ! -d printer ]; then
+            echo "No printer/ directory. Skipping printer validation."
+            exit 0
+          fi
+
+          mapfile -t files < <(find printer -type f -name '*.json' || true)
+
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No printer JSON files found. Skipping."
             exit 0
           fi
 
           echo "Validating printer files:"
-          echo "$files"
+          printf '  %s\n' "${files[@]}"
 
-          python tools/validate_schema.py schema/printer.schema.json $files
+          python tools/validate_schema.py schema/printer.schema.json "${files[@]}"
 
       - name: Validate filament schemas
         shell: bash
         run: |
           set -e
-          files=$(echo "${{ steps.changed.outputs.files }}" | grep '^filament/' || true)
 
-          if [[ -z "$files" ]]; then
-            echo "No filament JSON files changed. Skipping."
+          if [ ! -d filament ]; then
+            echo "No filament/ directory. Skipping filament validation."
+            exit 0
+          fi
+
+          mapfile -t files < <(find filament -type f -name '*.json' || true)
+
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No filament JSON files found. Skipping."
             exit 0
           fi
 
           echo "Validating filament files:"
-          echo "$files"
+          printf '  %s\n' "${files[@]}"
 
-          python tools/validate_schema.py schema/filament.schema.json $files
+          python tools/validate_schema.py schema/filament.schema.json "${files[@]}"
 
       - name: Validate process schemas
         shell: bash
         run: |
           set -e
-          files=$(echo "${{ steps.changed.outputs.files }}" | grep '^process/' || true)
 
-          if [[ -z "$files" ]]; then
-            echo "No process JSON files changed. Skipping."
+          if [ ! -d process ]; then
+            echo "No process/ directory. Skipping process validation."
+            exit 0
+          fi
+
+          mapfile -t files < <(find process -type f -name '*.json' || true)
+
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No process JSON files found. Skipping."
             exit 0
           fi
 
           echo "Validating process files:"
-          echo "$files"
+          printf '  %s\n' "${files[@]}"
 
-          python tools/validate_schema.py schema/process.schema.json $files
+          python tools/validate_schema.py schema/process.schema.json "${files[@]}"
